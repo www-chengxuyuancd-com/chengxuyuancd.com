@@ -30,7 +30,7 @@ Giscus：基于GitHub Discussions，对程序员相对友好，评论信息提�
 
 ## 它如何运作
 
-giscus 加载时，会使用 GitHub Discussions 搜索 API 根据选定的映射方式（如 URL、pathname、<title> 等）来查找与当前页面关联的 discussion。如果找不到匹配的 discussion，giscus bot 就会在第一次有人留下评论或回应时自动创建一个 discussion。
+giscus 加载时，会使用 GitHub Discussions 搜索 API 根据选定的映射方式（如 URL、pathname、`<title>` 等）来查找与当前页面关联的 discussion。如果找不到匹配的 discussion，giscus bot 就会在第一次有人留下评论或回应时自动创建一个 discussion。
 
 访客如果想要评论，必须按照 GitHub OAuth 流程授权 giscus app 代表他发布，或者可以直接在 GitHub Discussion 里评论。你可以在 GitHub 上管理评论。
 
