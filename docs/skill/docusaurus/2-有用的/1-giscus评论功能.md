@@ -37,18 +37,40 @@ giscus 加载时，会使用 GitHub Discussions 搜索 API 根据选定的映射
 
 ## 配置
 
-### 语言
+直接进入到配置页面，按照流程走下去
 
-选择 giscus 的显示语言。如果找不到你的语言？可以去贡献一个
-
-### 仓库
 选择 giscus 连接到的仓库。请确保：
 
 1. 该仓库是公开的，否则访客将无法查看 discussion。
-2. giscus app 已安装，否则访客将无法评论和回应。
-3. Discussions 功能已在你的仓库中启用。
+2. [giscus app 已安装](https://github.com/apps/giscus)，否则访客将无法评论和回应。
+3. [Discussions 功能已在你的仓库中启用](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/enabling-or-disabling-github-discussions-for-a-repository)。
 
-### 页面 ↔️ discussion 映射关系
+> Settings -> 'Features' -> Enable Discussions
 
-选择页面与嵌入的 discussion 之间的映射关系。
 
+## 使用
+
+最终你会得到一个脚本：
+
+```js
+<script src="https://giscus.app/client.js"
+        data-repo="www-chengxuyuancd-com/chengxuyuancd.com"
+        data-repo-id="R_kgDOMM_fNw"
+        data-category="General"
+        data-category-id="DIC_kwDOMM_fN84CgTl7"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        crossorigin="anonymous"
+        async>
+</script>
+```
+由于我在 `src/component/Comment` 组件中做了配置合并，并且支持主题变化、国际化。因此，你只需要复制 `data-repo`, `data-repo-id`, `data-category` 和 `data-category-id` 填写到 `docusaurus.config.ts` 中即可，以下是我的配置文件。
+
+::: warning
+切记一定要将上述数据替换成你的，如果不替换的话，评论的信息都将会在我的 DISCUSSIONS 下。
+:::
