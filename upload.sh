@@ -6,6 +6,12 @@ REMOTE_USER=root
 REMOTE_HOST=43.138.22.239
 REMOTE_DIR=/www/wwwroot/www.chengxuyuancd.com
 LOCAL_BUILD_ZIP=./build.zip
+LOCAL_BUILD_DIRECTORY=./build.zip
+
+# 删除本地build 文件
+rm -rf $LOCAL_BUILD_ZIP
+
+zip -r $LOCAL_BUILD_ZIP $LOCAL_BUILD_DIRECTORY
 
 # 连接并删除远程服务器的build目录
 echo "Deleting remote build directory..."
