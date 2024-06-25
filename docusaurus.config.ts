@@ -13,7 +13,7 @@ const config: Config = {
   baseUrl: '/',
   favicon: 'img/favicon.ico',
   organizationName: '程序员充电站',
-  projectName: 'blog',
+  projectName: 'chengxuyuancd.com',
   customFields: {
     bio: '志之所趋，无远弗届，穷山距海，不能限也。',
     description:
@@ -52,6 +52,11 @@ const config: Config = {
       },
       hideOnScroll: true,
       items: [
+        {
+          label: '计划',
+          position: 'right',
+          to: 'plan/archive',
+        },
         {
           label: '博客',
           position: 'right',
@@ -236,6 +241,8 @@ const config: Config = {
     [
       './src/plugin/plugin-content-blog', // 为了实现全局 blog 数据，必须改写 plugin-content-blog 插件
       {
+        id: 'blog1',
+        routeBasePath: 'blog',
         path: 'blog',
         editUrl: ({ locale, blogDirPath, blogPath, permalink }) =>
           `https://github.com/kuizuo/blog/edit/main/${blogDirPath}/${blogPath}`,
@@ -247,6 +254,29 @@ const config: Config = {
         showReadingTime: true,
         readingTime: ({ content, frontMatter, defaultReadingTime }) =>
           defaultReadingTime({ content, options: { wordsPerMinute: 300 } }),
+        feedOptions: {
+          type: 'all',
+          title: '包子哥',
+          copyright: `Copyright © ${new Date().getFullYear()} 包子哥 Built with Docusaurus.<p><a href="http://beian.miit.gov.cn/" class="footer_lin">${beian}</a></p>`,
+        },
+      },
+    ],
+    [
+      './src/plugin/plugin-content-blog', // 为了实现全局 blog 数据，必须改写 plugin-content-blog 插件
+      {
+        id: 'blog2',
+        routeBasePath: 'plan',
+        path: 'plan',
+        editUrl: ({ locale, blogDirPath, blogPath, permalink }) =>
+            `https://github.com/kuizuo/blog/edit/main/${blogDirPath}/${blogPath}`,
+        editLocalizedFiles: false,
+        blogDescription: '代码人生：编织技术与生活的博客之旅',
+        blogSidebarCount: 10,
+        blogSidebarTitle: 'Blogs',
+        postsPerPage: 12,
+        showReadingTime: true,
+        readingTime: ({ content, frontMatter, defaultReadingTime }) =>
+            defaultReadingTime({ content, options: { wordsPerMinute: 300 } }),
         feedOptions: {
           type: 'all',
           title: '包子哥',

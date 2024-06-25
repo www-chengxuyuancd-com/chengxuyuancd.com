@@ -46,7 +46,7 @@ export function BlogItem({ post }: { post: BlogPost }) {
 }
 
 export default function BlogSection(): JSX.Element {
-  const blogData = usePluginData('docusaurus-plugin-content-blog') as {
+  const blogData = usePluginData('docusaurus-plugin-content-blog', 'blog1') as {
     posts: BlogPost[]
     postNum: number
     tagNum: number
@@ -60,6 +60,10 @@ export default function BlogSection(): JSX.Element {
   const y = useTransform(scrollYProgress, [0, 0.5, 1], [20, 0, -20], {
     clamp: false,
   })
+
+  if (!blogData) {
+    return <div>Loading...</div>;
+  }
 
   if (blogData.postNum === 0) {
     return <>作者还没开始写博文哦...</>

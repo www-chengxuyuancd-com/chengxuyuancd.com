@@ -6,7 +6,7 @@ REMOTE_USER=root
 REMOTE_HOST=43.138.22.239
 REMOTE_DIR=/www/wwwroot/www.chengxuyuancd.com
 LOCAL_BUILD_ZIP=./build.zip
-LOCAL_BUILD_DIRECTORY=./build.zip
+LOCAL_BUILD_DIRECTORY=build
 
 # 删除本地build 文件
 rm -rf $LOCAL_BUILD_ZIP
@@ -25,8 +25,8 @@ scp -i $PEM_FILE $LOCAL_BUILD_ZIP $REMOTE_USER@$REMOTE_HOST:$REMOTE_DIR
 echo "Unzipping build.zip and removing the zip file..."
 ssh -i $PEM_FILE $REMOTE_USER@$REMOTE_HOST << EOF
     cd $REMOTE_DIR
-    unzip -o build.zip
-    rm -f build.zip
+    unzip -o $LOCAL_BUILD_ZIP -d.
+    rm -f $LOCAL_BUILD_ZIP
 EOF
 
 echo "Done."
