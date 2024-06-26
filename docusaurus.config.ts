@@ -53,11 +53,6 @@ const config: Config = {
       hideOnScroll: true,
       items: [
         {
-          label: '计划',
-          position: 'right',
-          to: 'plan/archive',
-        },
-        {
           label: '博客',
           position: 'right',
           to: 'blog/archive',
@@ -91,6 +86,7 @@ const config: Config = {
           title: '学习',
           items: [
             // { label: '博客', to: 'blog' },
+            { label: '计划', to: 'plan/archive' },
             { label: '博客', to: 'blog/archive' },
             { label: '技术笔记', to: 'docs/skill' },
             { label: '实战项目', to: 'project' },
