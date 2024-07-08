@@ -361,4 +361,233 @@ Page({
 ![下拉刷新案例](./images/day03/day03-image06.png)
 
 
-## 3. 声明周期
+## 3. 生命周期
+
+### 3.1 理论知识
+
+1. 生命周期的分类
+
+两类：
+
+应用生命周期：特指小程序从启动 ->运行-> 销毁的过程
+页面生命周期: 每个页面的加载->渲染->销毁的过程
+
+2. 生命周期函数
+
+生命周期函数：内置的函数，自动按生命周期的次序执行
+
+分类:
+应用生命周期函数
+页面的生命周期函数
+
+### 3.2 实践
+
+#### 3.2.1 生命周期函数
+1. 应用的生命周期函数
+应用的生命周期函数需要在`app.js`文件中声明：
+
+```js
+App({
+  onLaunch(){},
+  onShow(){},
+  onHide(){}
+})
+```
+
+2. 页面的生命周期函数
+需要在页面的`.js`文件中声明：
+
+```js
+Page(
+  {
+    onLoad(){},
+    onShow(){},
+    onReady(){},
+    onHide(){},
+    onUnload(){}
+  }
+)
+
+#### 3.2.2 WXS脚本
+
+##### 概述
+WXS 的应用场景
+wxml 中无法调用再页面的`.js`中定义的函数，但是 wxml 中可以调用 wxs 中定义的函数。
+
+所以，小程序中 wxs 的典型应用场景就是"过滤器"
+
+##### WXS 和 JavaScript 的关系
+
+- WXS 有自己的数据类型：
+number, string, boolean, object, function, array, date, regexp
+
+- wxs 不支持类似于 ES6 及以上的语法形式
+不支持: let, const, 解构赋值，展开运算符，箭头函数，对象属性简写，etc..
+支持: var 定义变量,普通 function 函数等类似于ES5 的语法
+
+- WXS 遵循 CommonJS 规范
+module 对象
+`require()`函数
+`module.exports` 对象
+
+##### WXS 基础语法
+
+1. 内嵌 WXS 脚本
+WXS 代码可以编写在 WXML 文件中的`<wxs>`标签内，就像 JavaScript 代码可以编写在 html 文件中的`<script>`标签内一样
+
+必须提供 module 属性，用来指定当前`wxs`模块的名称，方便再 wxml 中访问 模块中的成员
+
+```html
+<view>{{m1.toUpper(username)}}</view>
+<wxs module="m1">
+  module.exports.toUpper = function(str) {
+    return str.toUpperCase();
+  }
+</wxs>
+```
+
+1. 外联的 WXS 脚本
+wxs 代码还可以编写在以`.wxs`为后缀名的文件内，就像 JavaScript 代码可以编写在以`.js`为后缀名的文件中一样
+
+```js
+function toLower(str) {
+  return str.toLowerCase();
+}
+
+module.exports = {
+  toLower: toLower
+}
+```
+
+在`wxml`中引入外联的`wxs`脚本时，必须为`<wxs>`标签添加 module 和 src 属性，其中：
+
+- module 用来指定模块的名称
+- src 用来指定要引入的脚本路径，且必须是**相对路径**
+
+```
+<view>{{m2.toLower(username)}}</view>
+
+<wxs src="../../utils/toos.wxs" module="m2"></wxs>
+```
+
+##### WXS特点
+
+1. 与 JavaScript不同
+为了降低 wxs 的学习成本，wxs 语言在设计时借鉴了大量了的 JavaScript 语法，但本质上，wxs 和 JavaScript 是完全不同的两种语言！
+
+
+2. 不能作为组件的事件回调
+
+wxs典型的应用场景就是"过滤器",经常配合 Mustache 语法进行使用：
+`<view>{{m1.toUpper(username)}}</view>`
+
+但是，wxs 中定义的函数不能作为组件的事件回调函数使用，比如下面的方式是错误的：
+`<button bind:tap="m1.toUpper">按钮</button>`
+
+3. 隔离性
+隔离性指的是 wxs 的运行环境和其他 JavaScript 代码是隔离的：
+a. wxs 不能调用 js 中定义的函数
+b. wxs 不能调用小程序提供的 API
+
+4. 性能好
+- 在 IOS 设备上，小程序内的 WXS 会比 JavaScript 代码快 2-20 倍
+- 在 android 设备上，二者运行效率无差异
+
+
+## 案例
+
+### 跳转
+
+#### 跳转带参数
+
+```html
+<view class="grid-list">
+    <navigator class="grid-item" wx:for="{{gridList}}" wx:key="id"
+    url="/pages/shoplist/shoplist?id={{item.id}}&title={{item.name}}"
+    >
+      <image src="{{item.icon}}"></image>
+      <text>{{item.name}}</text>
+    </navigator>
+</view>
+```
+
+#### 跳转后修改 title
+
+```html
+// pages/shoplist/shoplist.js
+Page({
+
+  /**
+   * 页面的初始数据
+   */
+  data: {
+    query: {
+
+    }
+  },
+
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad(options) {
+    this.setData({
+      query: options
+    })
+  },
+
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady() {
+    wx.setNavigationBarTitle({
+      title: this.data.query.title,
+    })
+  },
+
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow() {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面隐藏
+   */
+  onHide() {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面卸载
+   */
+  onUnload() {
+
+  },
+
+  /**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */
+  onPullDownRefresh() {
+
+  },
+
+  /**
+   * 页面上拉触底事件的处理函数
+   */
+  onReachBottom() {
+
+  },
+
+  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage() {
+
+  }
+})
+```
+
+### 列表页面
+
+###

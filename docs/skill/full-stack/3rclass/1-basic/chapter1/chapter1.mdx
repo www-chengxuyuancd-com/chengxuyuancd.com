@@ -1,0 +1,623 @@
+---
+title: Node.js环境搭建及前后端应用初始化
+sidebar_position: 10
+---
+
+
+## 环境准备
+
+### 安装和配置 pnpm
+执行命令：`npm install -g pnpm`
+
+执行命令： `pnpm setup` ， 会出现如下：
+
+```shell
+Appended new lines to /Users/jie.xu/.zshrc
+
+Next configuration changes were made:
+export PNPM_HOME="/Users/jie.xu/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+
+To start using pnpm, run:
+source /Users/jie.xu/.zshrc
+```
+
+按要求执行一下 source 命令: `source ~/.zshrc`
+
+然后指定 pnpm 的版本，可以用 LTS 版本: `pnpm env use --global lts`
+
+或者最新版本：`pnpm env use --global latest`
+
+
+## 创建并启动项目
+
+### 创建应用
+
+找到合适的目录，比如我这里是: `~/coding/full-stack/3rclass/chapter1:`
+
+执行命令：`mkdir nodeapp && cd $_` 创建应用目录并打开目录
+
+`pnpm init` 初始化一个node应用以生成`package.json`
+
+`pnpm add fastify` 安装fastify框架
+执行完之后，大概目录结构如下:
+```shell
+(base) ➜  nodeapp tree
+.
+├── node_modules
+│   └── fastify -> .pnpm/fastify@4.28.1/node_modules/fastify
+├── package.json
+└── pnpm-lock.yaml
+
+3 directories, 2 files
+```
+
+安装typescript和node类型库: `pnpm add -D typescript @types/node` 
+
+```shell
+(base) ➜  nodeapp tree
+.
+├── node_modules
+│   ├── @types
+│   │   └── node -> ../.pnpm/@types+node@20.14.9/node_modules/@types/node
+│   ├── fastify -> .pnpm/fastify@4.28.1/node_modules/fastify
+│   └── typescript -> .pnpm/typescript@5.5.3/node_modules/typescript
+├── package.json
+└── pnpm-lock.yaml
+
+6 directories, 2 files
+
+```
+
+初始化typescript以生成tsconfig.json: `pnpm --package=typescript dlx tsc --init`
+
+
+### 配置 TS
+把以下配置放入tsconfig.json中。tsconfig.json此处并非作为真正的ts -> js的编译过程的配置文件，而仅仅作为vscode的ts-server的代码编辑和检测功能以及eslint的ts解析器的配置使用
+
+对于这些TS的每个配置的作用，不在本课的解释范围内，请自行查看此处官网文档
+
+```json
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "compilerOptions": {
+    "strict": true,
+    "alwaysStrict": true,
+    "target": "esnext",
+    "module": "commonjs",
+    "moduleResolution": "Node",
+    "allowJs": true,
+    "noEmit": false,
+    "declaration": true,
+    "declarationMap": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "sourceMap": true,
+    "incremental": true,
+    "skipLibCheck": true,
+    "strictNullChecks": false,
+    "noImplicitAny": true,
+    "strictBindCallApply": false,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": false,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "noUnusedLocals": true,
+    "noImplicitReturns": true,
+    "pretty": true,
+    "resolveJsonModule": true,
+    "importsNotUsedAsValues": "remove",
+    "baseUrl": ".",
+    "outDir": "./dist",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": ["src", "test", "typings/**/*.d.ts", "**/*spec.ts", "**.js"]
+}
+```
+添加一个tsconfig.build.json文件，作为ts -> js 的编译工作配置，其内容如下
+
+```json
+{
+  "extends": "./tsconfig.json",
+  "exclude": ["node_modules", "test", "dist", "**/*spec.ts", "**.js"]
+}
+```
+
+> 此处我们排除了**.js，以防止.eslintrc.js等文件被编译进应用中，而在tsconfig.json中我们需要加上才可以自动格式化这些文件。因为eslint是使用tsconfig.json作为ts的解析配置的
+
+
+### bun
+
+为了在开发时直接运行ts文件并且实现热重载，我们使用[bun](https://bun.sh/)
+
+安装：`curl https://bun.sh/install | bash`
+添加到 Path: `export PATH="$HOME/.bun/bin:$PATH"`
+source: `source ~/.zshrc  # or source ~/.bashrc depending on your shell`
+检查：
+
+```shell
+(base) ➜  nodeapp bun --version
+
+1.1.18
+```
+
+
+> 此处使用bun纯粹是为了方便，如果需要类型检测则可以使用ts-node+nodemon来代替。关于bun和nodemon我们后续会在课程中专门讲解
+
+
+此处不在全局中安装bun,而是简单地在项目中安装.同时,添加了bun的typescript类型库：
+`pnpm add bun @types/bun -D`
+
+```shell
+(base) ➜  nodeapp tree
+.
+├── node_modules
+│   ├── @types
+│   │   ├── bun -> ../.pnpm/@types+bun@1.1.6/node_modules/@types/bun
+│   │   └── node -> ../.pnpm/@types+node@20.14.9/node_modules/@types/node
+│   ├── bun -> .pnpm/bun@1.1.18/node_modules/bun
+│   ├── fastify -> .pnpm/fastify@4.28.1/node_modules/fastify
+│   └── typescript -> .pnpm/typescript@5.5.3/node_modules/typescript
+├── package.json
+├── pnpm-lock.yaml
+└── tsconfig.json
+
+```
+
+### 应用代码
+本节应用代码非常简单，只是启动一个fastify的服务器
+
+```typescript
+// src/main.ts
+import fastify from "fastify";
+
+const server = fastify();
+
+server.get("/", async (request, reply) => {
+  return "hello world!\n";
+});
+
+server.listen({ port: 8080 }, (err, address) => {
+  if (err) {
+    console.error(err);
+    process.exit(1);
+  }
+  console.log('Server listening at http://127.0.0.1:8080');
+});
+```
+
+### 编译启动
+添加以下脚本到`package.json`中
+
+```json
+{
+   "scripts": {
+    "dev": "pnpm start:dev",
+    "build": "tsc -p tsconfig.build.json",
+    "start:dev": "bun --watch src/main.ts",
+    "start": "node dist/main.js"
+  },
+}
+```
+
+首先尝试编译命令: `pnpm build`，可以看到以下编译产出了 `dist`文件夹
+
+```shell
+├── dist
+│   ├── main.d.ts
+│   ├── main.d.ts.map
+│   ├── main.js
+│   ├── main.js.map
+│   └── tsconfig.build.tsbuildinfo
+├── node_modules
+│   ├── @types
+│   │   ├── bun -> ../.pnpm/@types+bun@1.1.6/node_modules/@types/bun
+│   │   └── node -> ../.pnpm/@types+node@20.14.9/node_modules/@types/node
+│   ├── bun -> .pnpm/bun@1.1.18/node_modules/bun
+│   ├── fastify -> .pnpm/fastify@4.28.1/node_modules/fastify
+│   └── typescript -> .pnpm/typescript@5.5.3/node_modules/typescript
+├── package.json
+├── pnpm-lock.yaml
+├── src
+│   └── main.ts
+├── tsconfig.build.json
+└── tsconfig.json
+
+10 directories, 10 files
+```
+
+运行 `dist/main.js`
+
+`pnpm start`
+
+然后在浏览器中访问127.0.0.1:8080即可看到输出了”Hello World!“
+
+按ctrl+c关闭node进程，然后使用bun启动开发环境
+> 尽量不要使用bun --hot，因为这没有重新加载进程，只是替换了模块。这个操作比较适合前端，不适合node。
+
+## 优化仓库
+
+### 代码格式化
+使用eslint对代码进行风格化（形成属于自己或自己团队的一种固有的代码风格），而prettier可以对代码进行美化。一般我们会整合这两者来使用，对代码进行格式化。
+
+安装必要的依赖：
+
+```shell
+pnpm add -D jest
+
+pnpm add eslint@8.57.0 \
+  prettier \
+  @typescript-eslint/parser \
+  @typescript-eslint/eslint-plugin \
+  eslint-config-airbnb-base \
+  eslint-config-airbnb-typescript \
+  eslint-config-prettier \
+  eslint-plugin-import \
+  eslint-plugin-prettier \
+  eslint-plugin-unused-imports \
+  eslint-plugin-jest
+  jest -D
+
+```
+
+由于目前eslint最新版本已到9，而很多插件还不兼容最新版。所以要对其做以下版本升级忽略（在pnpm up --latest时忽略eslint的升级）就需要修改package.json文件
+
+```shell
+{
+  // ...
+  "pnpm": {
+    "updateConfig": {
+      "ignoreDependencies": [
+        "eslint"
+      ]
+    }
+  }
+}
+```
+
+如果出现unmet peer警告，就把该peer依赖的版本忽略掉，比如
+
+{
+  "pnpm": {
+        // ...
+        "peerDependencyRules": {
+            "allowAny": [
+                "@typescript-eslint/eslint-plugin"
+            ]
+        }
+    }
+}
+
+然后执行pnpm up --latest把所以依赖升级到最新版
+
+创建.eslintrc.js和.prettierrc.js，用于配置eslint和pretter。eslint采用airbnb 的 ESLint 规则并整合 Prettier，并且经过一定的客制化同时配合 VSCode 可达到完美的编码体验
+
+#### Eslint配置
+
+```javascript
+// .eslintrc.js
+/** @type {import("eslint").Linter.Config} */
+module.exports = {
+    root: true,
+    parser: '@typescript-eslint/parser',
+    parserOptions: {
+        project: true,
+        ecmaVersion: 'latest',
+        sourceType: 'module',
+    },
+    plugins: ['@typescript-eslint', 'jest', 'import', 'unused-imports', 'prettier'],
+    extends: [
+        // airbnb规范
+        // https://www.npmjs.com/package/eslint-config-airbnb-base
+        'airbnb-base',
+        // 兼容typescript的airbnb规范
+        // https://github.com/iamturns/eslint-config-airbnb-typescript
+        'airbnb-typescript/base',
+        // typescript的eslint插件
+        // https://github.com/typescript-eslint/typescript-eslint/blob/master/docs/getting-started/linting/README.md
+        // https://github.com/typescript-eslint/typescript-eslint/tree/master/packages/eslint-plugin
+        'plugin:@typescript-eslint/recommended',
+        'plugin:@typescript-eslint/recommended-requiring-type-checking',
+        // 支持jest
+        'plugin:jest/recommended',
+        // 使用prettier格式化代码
+        // https://github.com/prettier/eslint-config-prettier#readme
+        'prettier',
+        // 整合typescript-eslint与prettier
+        // https://github.com/prettier/eslint-plugin-prettier
+        'plugin:prettier/recommended'
+    ],
+    env: {
+        node: true,
+        jest: true,
+    },
+    ignorePatterns: [
+        // Ignore dotfiles
+        'node_modules/',
+        'dist/',
+    ],
+    overrides: [
+        {
+            files: ['*.js?(x)', '*.ts?(x)', '*.json'],
+        },
+    ],
+    rules: {
+        // 
+    }
+};
+```
+注意以下规则
+
+`eslint-plugin-unused-imports` 用于自动删除未使用的导入
+
+```shell
+ 'no-unused-vars': 0,
+ '@typescript-eslint/no-unused-vars': 0,
+ 'unused-imports/no-unused-imports': 1,
+ 'unused-imports/no-unused-vars': [
+    'error',
+    {
+        vars: 'all',
+        args: 'none',
+        ignoreRestSiblings: true,
+    },
+]
+```
+
+`import` 插件，`import/order` 可以按照自己的需求配置
+
+```shell
+'import/order': [
+     'error',
+     {
+         pathGroups: [
+             {
+                 pattern: '@/**',
+                 group: 'external',
+                 position: 'after',
+             },
+         ],
+         alphabetize: { order: 'asc', caseInsensitive: false },
+         'newlines-between': 'always-and-inside-groups',
+         warnOnUnassignedImports: true,
+     },
+],
+
+```
+#### Prettier配置
+
+
+接下来配置.prettierrc文件，内容如下
+
+```shell
+module.exports = {
+  "singleQuote": true,
+  "trailingComma": "all",
+  "printWidth": 100,
+  "proseWrap": "never",
+  "endOfLine": "auto",
+  "semi": true,
+  "tabWidth": 4,
+  "overrides": [
+    {
+      "files": ".prettierrc",
+      "options": {
+        "parser": "json"
+      }
+    }
+  ]
+}
+
+```
+
+#### 格式化命令
+在package.json中添加以下脚本
+
+```json
+{
+   "scripts": {
+        "dev": "pnpm start:dev",
+        "build": "tsc -p tsconfig.build.json",
+        "start:dev": "bun --watch src/main.ts",
+        "start": "node dist/main.js",
+        "start:debug": "bun --inspect src/main.ts",
+        "lint": "eslint \"{src,test}/**/*.ts\" --fix"
+    },
+}
+```
+
+当我执行：`pnpm lint`之后：
+会看到如下输出说明我的代码有格式问题：
+
+```shell
+(base) ➜  nodeapp pnpm lint
+
+> nodeapp@1.0.0 lint /Users/jie.xu/coding/full-stack/3rclass/chapter1/nodeapp
+> eslint "{src,test}/**/*.ts" --fix
+
+
+/Users/jie.xu/coding/full-stack/3rclass/chapter1/nodeapp/src/main.ts
+   5:24  error    'request' is defined but never used  @typescript-eslint/no-unused-vars
+   5:33  error    'reply' is defined but never used    @typescript-eslint/no-unused-vars
+  11:5   warning  Unexpected console statement         no-console
+  14:3   warning  Unexpected console statement         no-console
+
+✖ 4 problems (2 errors, 2 warnings)
+
+ ELIFECYCLE  Command failed with exit code 1.
+```
+
+
+#### 自动格式化
+为了更方便的编写代码，我们配置一下vscode的自动格式化
+
+安装 ESLint 插件和 Prettier 插件，可在 VSCode 插件中搜索并安装，或者使用如下命令安装
+
+```shell
+code --install-extension dbaeumer.vscode-eslint \
+  && code --install-extension esbenp.prettier-vscode
+
+```
+
+按cmd+,(win或linux下为ctrl+,)打开偏好设置，选择“工作空间”，然后点红色箭头所指按钮创建.vscode/settings.json的配置文件
+
+[vscode 设置](./images/image1.png)
+
+把以下配置放进去，即可实现保存文件时自动格式化
+
+```json
+{
+    "editor.formatOnSave": false,
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": "explicit",
+        "source.fixAll.stylelint": "explicit"
+    },
+    "javascript.preferences.importModuleSpecifier": "project-relative",
+    "typescript.suggest.jsdoc.generateReturns": false,
+    "npm.packageManager": "pnpm"
+}
+
+```
+
+#### 忽略文件
+
+一些文件是不需要格式化的，例如mardkown、图片、node_modules和dist中文件等等。
+
+复制课程源码中的.eslintignore和.prettierignore文件到根目录即可
+
+`.eslintignore`
+```js
+/dist
+/build
+/node_modules
+/back
+/.docs/.obsidian
+/.history
+**/*.svg
+**/*.md
+**/*.svg
+**/*.ejs
+**/*.html
+**/*.png
+**/*.toml
+.docusaurus
+.dockerignore
+.DS_Store
+.eslintignore
+docker
+.editorconfig
+Dockerfile*
+.gitignore
+.prettierignore
+LICENSE
+.eslintcache
+*.lock
+yarn-error.log
+```
+
+`.prettierignore`
+```js
+/dist
+/build
+/node_modules
+/back
+/.docs/.obsidian
+/.history
+**/*.svg
+**/*.md
+**/*.svg
+**/*.ejs
+**/*.html
+**/*.png
+**/*.toml
+.docusaurus
+.dockerignore
+.DS_Store
+.eslintignore
+docker
+.editorconfig
+Dockerfile*
+.gitignore
+.prettierignore
+LICENSE
+.eslintcache
+*.lock
+yarn-error.log
+```
+
+同时，把.gitignore复制到根目录，以防止node_modules、dist等文件或者目录提交到代码仓库
+
+```js
+# Dependencies
+node_modules
+back
+build
+
+# Generated files
+.docusaurus
+.cache-loader
+
+# Misc
+.DS_Store
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+```
+
+
+## Nestjs应用
+
+上面，我们通过创建一个Fastify应用来简单地了解了以下TS+Node.js开始web后端应用开发的基本步骤。现在开始学习一下我们本课程后端部分的主力框架-Nestjs的应用创建步骤。总体上与fastify的过程差不多
+
+安装 Nest CLI
+
+`pnpm add @nestjs/cli -g`
+
+创建项目，我们命名为 nestapp
+
+`nest new nestapp`
+
+```
+⚡  We will scaffold your app in a few seconds..
+
+? Which package manager would you ❤️  to use?
+  npm
+  yarn
+❯ pnpm
+
+```
+
+进入到目录并用vscode打开编辑package.json以锁定eslint版本
+
+`cd nestapp && code $_`
+
+同样锁定eslint版本
+
+```
+{
+  // ...
+  "pnpm": {
+    "updateConfig": {
+      "ignoreDependencies": [
+        "eslint"
+      ]
+    }
+  }
+}
+```
+然后运行以下命令把所有依赖升级到最新版
+
+`pnpm up --latest`
