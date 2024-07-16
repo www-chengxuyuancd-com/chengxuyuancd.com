@@ -15,7 +15,7 @@ type SocialValue = {
 const social: Social = {
   github: 'https://github.com/www-chengxuyuancd-com',
   qq: 'https://img.kuizuo.cn/qq.png',
-  wx: 'https://img.kuizuo.cn/wechat.png',
+  wx: 'https://chengxuyuancd.oss-cn-beijing.aliyuncs.com/gongzhonghao/baozige.png',
   email: '757306533@qq.com',
 }
 
