@@ -1153,4 +1153,16 @@ export const resourceData: ResourceCategory[] = [
       },
     ],
   },
+  {
+    name: '海外支付',
+    resources: [
+      {
+        name: 'fomepay虚拟信用卡',
+        desc: '针对用户没有海外信用卡支付的情况，且有客户可以代充，解决无法IP 地址问题，唯一的缺点是贵，开卡费 10 刀',
+        logo: 'https://gpt.fomepay.com/static/images/favicon.svg',
+        href: 'https://gpt.fomepay.com/',
+        tags: ['虚拟信用卡', '海外支付'],
+      },
+    ],
+  },
 ]
