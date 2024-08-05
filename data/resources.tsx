@@ -1165,4 +1165,47 @@ export const resourceData: ResourceCategory[] = [
       },
     ],
   },
+  {
+    name: '物理学习',
+    resources: [
+      {
+        name: 'Gerardt Hooft 的教程',
+        desc: '这个网站给了非常全面的物理学习教程',
+        logo: 'https://www.goodtheorist.science/Images/gerardth.JPG',
+        href: 'https://www.goodtheorist.science/',
+        tags: ['物理学习'],
+      },
+    ],
+  },
+  {
+    name: ' 大语言模型',
+    resources: [
+      {
+        name: 'Kimi 月之暗面',
+        desc: 'Kimi 大语言模型',
+        logo: 'https://www.moonshot.cn/favicon.ico',
+        href: 'https://platform.moonshot.cn/console/info',
+        tags: ['大模型'],
+      },
+      {
+        name: '百川',
+        desc: '百川大语言模型',
+        logo: 'https://platform.baichuan-ai.com/favicon.ico',
+        href: 'https://platform.baichuan-ai.com/console/apikey',
+        tags: ['大模型'],
+      },
+    ],
+  },
+  {
+    name: ' 大语言模型价格对比',
+    resources: [
+      {
+        name: 'AIGCRank.cn',
+        desc: '大语言模型价格榜',
+        logo: 'https://aigcrank.cn/wp-content/uploads/2024/05/2024051914224597.png',
+        href: 'https://aigcrank.cn/llmprice',
+        tags: ['大模型价格'],
+      },
+    ],
+  },
 ]
