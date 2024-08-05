@@ -63,14 +63,29 @@ const config: Config = {
           to: 'project',
         },
         {
+          label: '技能',
+          position: 'right',
+          to: 'docs/skill',
+        },
+        {
+          label: '职业->副业->创业',
+          position: 'right',
+          to: 'docs/work',
+        },
+        {
+          label: '工具',
+          position: 'right',
+          to: 'docs/tools',
+        },
+        {
           label: '更多',
           position: 'right',
           items: [
             // { label: '归档', to: 'blog/archive' },
-            { label: '笔记', to: 'docs/skill' },
+            // { label: '笔记', to: 'docs/skill' },
             { label: '资源', to: 'resources' },
             { label: '友链', to: 'friends' },
-            { label: '工具推荐', to: 'docs/tools' },
+            // { label: '工具推荐', to: 'docs/tools' },
           ],
         },
         {
@@ -89,6 +104,8 @@ const config: Config = {
             { label: '计划', to: 'plan/archive' },
             { label: '博客', to: 'blog/archive' },
             { label: '技术笔记', to: 'docs/skill' },
+            { label: '职业->副业->创业', to: 'docs/work' },
+            { label: '工具', to: 'docs/tools' },
             { label: '实战项目', to: 'project' },
           ],
         },
