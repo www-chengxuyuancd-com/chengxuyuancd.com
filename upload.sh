@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # 设置变量
-PEM_FILE=~/Downloads/chengxuyuan_BJ_43_138.pem
+PEM_FILE=~/Downloads/Downloader-temp/chengxuyuan_BJ_43_138.pem
 REMOTE_USER=root
 REMOTE_HOST=43.138.22.239
 REMOTE_DIR=/www/wwwroot/www.chengxuyuancd.com

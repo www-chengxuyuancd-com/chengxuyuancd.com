@@ -155,3 +155,8 @@ scp -i /Users/jie.xu/secrets/tengxunyun/qq_2he_2G_1year_22_04_05 ~/Downloads/che
 `nginx -s reload`
 
 将会看到上面同样的效果
+
+
+### 3.2.3 宝塔面板
+
+如果你使用的是宝塔面板，同样非常简单

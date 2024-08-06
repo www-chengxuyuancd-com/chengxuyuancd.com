@@ -213,10 +213,10 @@ const config: Config = {
         sitemap: {
           priority: 0.5,
         },
-        gtag: {
-          trackingID: 'G-S4SD5NXWXF',
-          anonymizeIP: true,
-        },
+        // gtag: {
+        //   trackingID: 'G-S4SD5NXWXF',
+        //   anonymizeIP: true,
+        // },
         debug: process.env.NODE_ENV === 'development',
       } satisfies Preset.Options,
     ],
@@ -244,13 +244,13 @@ const config: Config = {
         ],
       },
     ],
-    [
-      'vercel-analytics',
-      {
-        debug: process.env.NODE_ENV === 'development',
-        mode: 'auto',
-      },
-    ],
+    // [
+    //   'vercel-analytics',
+    //   {
+    //     debug: process.env.NODE_ENV === 'development',
+    //     mode: 'auto',
+    //   },
+    // ],
     [
       './src/plugin/plugin-content-blog', // 为了实现全局 blog 数据，必须改写 plugin-content-blog 插件
       {
@@ -319,8 +319,8 @@ const config: Config = {
     },
   ],
   stylesheets: [
-    'https://cdn.jsdelivr.net/npm/misans@4.0.0/lib/Normal/MiSans-Normal.min.css',
-    'https://cdn.jsdelivr.net/npm/misans@4.0.0/lib/Normal/MiSans-Semibold.min.css',
+    '/css/MiSans-Normal.min.css',
+    '/css/MiSans-Semibold.min.css',
   ],
   i18n: {
     defaultLocale: 'zh-CN',
