@@ -160,3 +160,27 @@ scp -i /Users/jie.xu/secrets/tengxunyun/qq_2he_2G_1year_22_04_05 ~/Downloads/che
 ### 3.2.3 宝塔面板
 
 如果你使用的是宝塔面板，同样非常简单
+
+首先下载宝塔面板的证书类型：
+![宝塔面板证书](./images/image-15.png)
+接着解压缩：
+```
+(base) ➜  chengxuyuancd.com_nginx tree
+.
+├── chengxuyuancd.com.csr
+├── chengxuyuancd.com.key
+├── chengxuyuancd.com_bundle.crt
+└── chengxuyuancd.com_bundle.pem
+
+```
+
+然后来到宝塔后台：
+![宝塔面板后台](./images/image-16.png)
+
+直接点击即可来到证书修改界面:
+![SSL 证书修改](./images/image-17.png)
+
+其中左侧的密钥(KEY)我们使用上面步骤中的`.key`后缀文件里面的内容
+右侧的证书(PEM格式)我们使用上面步骤中的`.pem`后缀文件里面的内容
+
+点击保存即可生效，会提示你剩余的天数
