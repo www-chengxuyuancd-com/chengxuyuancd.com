@@ -63,6 +63,16 @@ const config: Config = {
           to: 'project',
         },
         {
+          label: '关于小站',
+          position: 'right',
+          to: 'about',
+        },
+        {
+          label: 'Python课程',
+          position: 'right',
+          to: 'python-courses',
+        },
+        {
           label: '技能',
           position: 'right',
           to: 'docs/skill',
@@ -142,13 +152,13 @@ const config: Config = {
         <p style="display: inline-flex; align-items: center;"><img style="height:20px;margin-right: 0.5rem;" src="/img/police.png" alt="police" height="20"/><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=${
           beian1.match(/\d+/)?.[0]
         }" >${beian1}</a></p>
-        <p>Copyright © 2020 - PRESENT 包子哥 Built with Docusaurus.</p>
+        <p>Copyright © 2016 - PRESENT 包子哥 Built with Docusaurus.</p>
         `,
     },
     algolia: {
-      appId: 'GV6YN1ODMO',
-      apiKey: '50303937b0e4630bec4a20a14e3b7872',
-      indexName: 'kuizuo',
+      appId: 'KY8Z42R1S4',
+      apiKey: 'b53f64b476685c99d2cba7158c187e7e',
+      indexName: 'chengxuyuancd',
     },
     prism: {
       theme: themes.oneLight,
@@ -257,10 +267,6 @@ const config: Config = {
         id: 'blog1',
         routeBasePath: 'blog',
         path: 'blog',
-        editUrl: ({ locale, blogDirPath, blogPath, permalink }) =>
-          `https://github.com/kuizuo/blog/edit/main/${blogDirPath}/${blogPath}`,
-        editLocalizedFiles: false,
-        blogDescription: '代码人生：编织技术与生活的博客之旅',
         blogSidebarCount: 10,
         blogSidebarTitle: 'Blogs',
         postsPerPage: 12,
@@ -280,10 +286,7 @@ const config: Config = {
         id: 'blog2',
         routeBasePath: 'plan',
         path: 'plan',
-        editUrl: ({ locale, blogDirPath, blogPath, permalink }) =>
-            `https://github.com/kuizuo/blog/edit/main/${blogDirPath}/${blogPath}`,
         editLocalizedFiles: false,
-        blogDescription: '代码人生：编织技术与生活的博客之旅',
         blogSidebarCount: 10,
         blogSidebarTitle: 'Blogs',
         postsPerPage: 12,

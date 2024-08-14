@@ -31,11 +31,13 @@ export default function UserCard({ isNavbar = false }: { isNavbar?: boolean }) {
 
   const logoLink = useBaseUrl(logo.src || '/')
 
-  const blogData = usePluginData('docusaurus-plugin-content-blog') as {
+  const blogData = (usePluginData('docusaurus-plugin-content-blog') as {
     posts: BlogPost[]
     postNum: number
     tagNum: number
-  }
+  }) || { posts: [], postNum: 0, tagNum: 0 };
+
+
   const docData = (
     usePluginData('docusaurus-plugin-content-docs') as {
       versions: { docs: BlogPost[] }
@@ -43,7 +45,7 @@ export default function UserCard({ isNavbar = false }: { isNavbar?: boolean }) {
   )?.versions[0].docs
 
   const count: Count = {
-    blog: blogData.postNum,
+    blog: blogData.postNum ?? 0,
     tag: blogData.tagNum ?? 0,
     doc: docData?.length ?? 0,
     project: projects?.length ?? 0,
