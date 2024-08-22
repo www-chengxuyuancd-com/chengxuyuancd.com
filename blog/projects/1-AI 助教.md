@@ -6,7 +6,7 @@ authors: baozige
 tags: [AI, 大模型, AI助教]
 keywords: [AI, 大模型, AI助教]
 description: 这篇文章分享了作者对于 AI 助教这个大模型细分应用场景的技术方案探索以及可行性调研
-image: /img/blog/swimming.png
+image: https://chengxuyuancd.oss-cn-beijing.aliyuncs.com/auto_images/static/img/blog/swimming.png
 ---
 
 ## 客户需求
