@@ -115,6 +115,7 @@ const config: Config = {
             { label: '博客', to: 'blog/archive' },
             { label: '技术笔记', to: 'docs/skill' },
             { label: '职业->副业->创业', to: 'docs/work' },
+            { label: '生活', to: 'docs/life' },
             { label: '工具', to: 'docs/tools' },
             { label: '实战项目', to: 'project' },
           ],
