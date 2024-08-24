@@ -11,7 +11,11 @@ LOCAL_BUILD_DIRECTORY=build
 # 删除本地build 文件
 rm -rf $LOCAL_BUILD_ZIP
 
-zip -r $LOCAL_BUILD_ZIP $LOCAL_BUILD_DIRECTORY
+# 压缩 build 目录下的内容而不是 build 目录本身
+cd $LOCAL_BUILD_DIRECTORY
+zip -r ../$LOCAL_BUILD_ZIP ./*
+cd ..
+
 
 # 连接并删除远程服务器的build目录
 echo "Deleting remote build directory..."
@@ -25,7 +29,7 @@ scp -i $PEM_FILE $LOCAL_BUILD_ZIP $REMOTE_USER@$REMOTE_HOST:$REMOTE_DIR
 echo "Unzipping build.zip and removing the zip file..."
 ssh -i $PEM_FILE $REMOTE_USER@$REMOTE_HOST << EOF
     cd $REMOTE_DIR
-    unzip -o $LOCAL_BUILD_ZIP -d.
+    unzip -o $LOCAL_BUILD_ZIP
     rm -f $LOCAL_BUILD_ZIP
 EOF
 

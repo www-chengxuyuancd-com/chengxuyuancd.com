@@ -1,0 +1,33 @@
+---
+title: 1. 宝塔基本使用
+---
+
+
+## 安全方面
+
+### 如何单独为某个目录加密
+
+有时候我们希望可以为博客或者网站的某个目录加密，只给付费用户使用，
+
+最简单的方式就是利用宝塔自带的功能:
+
+1. 登录宝塔后台，找到相应网站的设置
+
+![宝塔后台](https://chengxuyuancd.oss-cn-beijing.aliyuncs.com/auto_images/docs/work/fuye/build-website/baota/images/1-baota-houtai.png)
+
+2. 找到访问限制
+![宝塔后台-设置-访问限制](https://chengxuyuancd.oss-cn-beijing.aliyuncs.com/auto_images/docs/work/fuye/build-website/baota/images/2-baota-fangwenxianzhi-1.png)
+
+3. 添加加密访问
+![宝塔后台-设置-添加加密访问](https://chengxuyuancd.oss-cn-beijing.aliyuncs.com/auto_images/docs/work/fuye/build-website/baota/images/3-baota-fangwenxianzhi-2.png)
+依次输入：需要加密的目录，别名（方便自己记住），用户名和密码（给特定权限的人访问）
+
+比如我这里添加的是`/plan` 路径
+
+如果我尝试访问: `https://chengxuyuancd.com/plan/`
+会出现：
+![宝塔访问需要输入密码](https://chengxuyuancd.oss-cn-beijing.aliyuncs.com/auto_images/docs/work/fuye/build-website/baota/images/4-baota-fangwenxianzhi-3.png)
+
+
+如果还是不会操作看下方的视频哈：
+<iframe src="//player.bilibili.com/player.html?isOutside=true&aid=112983191586710&bvid=BV1SmWNeUE47&cid=500001653836579&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
