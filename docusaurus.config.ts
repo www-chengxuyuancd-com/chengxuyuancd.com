@@ -233,6 +233,20 @@ const config: Config = {
     ],
   ],
   plugins: [
+    [
+      "@dipakparmar/docusaurus-plugin-umami",
+      /** @type {import('@dipakparmar/docusaurus-plugin-umami').Options} */
+      ({
+        websiteID: "cb8af7e2-fb0f-47c3-994a-c3e675966d39", // Required
+        analyticsDomain: "analytics.chengxuyuancd.com", // Required
+        scriptName: "umani-chengxuyuancd", // Optional
+        dataHostURL: "postgresql://postgres.bbvcwwozbfvzaizyiqgn:[87NSRzTE7_mDG$S]@aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres", // Optional
+        dataAutoTrack: true, // Optional
+        dataDoNotTrack: true, // Optional
+        dataCache: true, // Optional
+        dataDomains: "----", // comma separated list of domains, *Recommended*
+      }),
+    ],
     'docusaurus-plugin-image-zoom',
     '@docusaurus/plugin-ideal-image',
     [
